@@ -7,3 +7,5 @@ My main source are going to be the [GPT-3 paper](https://arxiv.org/abs/2005.1416
 My mains tools are Python and PyTorch.
 
 ## Current Status 
+- [x] Tokenization (using tiktoken)
+- [x] Attention mechanism from scratch
