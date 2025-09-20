@@ -9,3 +9,6 @@ My mains tools are Python and PyTorch.
 ## Current Status 
 - [x] Tokenization (using tiktoken)
 - [x] Attention mechanism from scratch
+- [ ] GPT-2 model architecture from scratch
+- [ ] Training a small GPT-2 model on a small dataset
+- [ ] Implement training loop from scratch
