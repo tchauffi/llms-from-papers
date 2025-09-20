@@ -1,10 +1,14 @@
 """This module implements attention mechanisms for LLMs."""
-import torch 
+
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class MultiHeadAttention(nn.Module):
-    def __init__(self, d_in, d_out, num_heads, context_length, qkv_bias=False, dropout=0.0):
+    def __init__(
+        self, d_in, d_out, num_heads, context_length, qkv_bias=False, dropout=0.0
+    ):
         super().__init__()
         assert d_out % num_heads == 0, "d_out must be divisible by num_heads"
         self.num_heads = num_heads
@@ -15,14 +19,14 @@ class MultiHeadAttention(nn.Module):
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.out_proj = nn.Linear(d_out, d_out)
         self.dropout = nn.Dropout(dropout)
-        self.register_buffer("mask", 
-                             torch.triu(torch.ones(context_length, context_length), diagonal=1)
-                             )
-        
+        self.register_buffer(
+            "mask", torch.triu(torch.ones(context_length, context_length), diagonal=1)
+        )
+
     def forward(self, x):
         """
         Computes multi-head self-attention.
-        
+
         Args:
             x: Input tensor of shape (batch_size, seq_len, d_in)
 
@@ -38,18 +42,23 @@ class MultiHeadAttention(nn.Module):
 
         # Reshape for multi-head attention
         keys = keys.view(bz, nb_tockens, self.num_heads, self.d_head).transpose(1, 2)
-        values = values.view(bz, nb_tockens, self.num_heads, self.d_head).transpose(1, 2)
-        querys = queries.view(bz, nb_tockens, self.num_heads, self.d_head).transpose(1, 2)
+        values = values.view(bz, nb_tockens, self.num_heads, self.d_head).transpose(
+            1, 2
+        )
+        querys = queries.view(bz, nb_tockens, self.num_heads, self.d_head).transpose(
+            1, 2
+        )
         # Compute attention scores
-        attention_scores = querys @ keys.transpose(2, 3)  # (batch_size, num_heads, seq_len, seq_len)
+        attention_scores = querys @ keys.transpose(
+            2, 3
+        )  # (batch_size, num_heads, seq_len, seq_len)
 
         # Apply mask
         mask_bool = self.mask.bool()[:nb_tockens, :nb_tockens]
-        attention_scores = attention_scores.masked_fill(
-            mask_bool, -torch.inf)
-        
+        attention_scores = attention_scores.masked_fill(mask_bool, -torch.inf)
+
         # Compute attention weights
-        attention_weights = F.softmax(attention_scores / keys.shape[-1]**0.5, dim=-1)
+        attention_weights = F.softmax(attention_scores / keys.shape[-1] ** 0.5, dim=-1)
         attention_weights = self.dropout(attention_weights)
 
         # apply attention weights to values
