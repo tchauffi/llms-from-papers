@@ -14,4 +14,5 @@ My mains tools are Python and PyTorch.
 - [x] Implement training loop from scratch
 - [x] Implement text generation from scratch using temperature and top-k sampling
 - [x] Load weights from a pretrained GPT-2 model
-- [ ] Fine-tune a pretrained GPT-2 model on a small dataset
+- [x] Fine-tune a pretrained GPT-2 model on a small classification dataset (spam/ham)
+- [ ] Fine-tune a pretrained GPT-2 model on a small instruction dataset
