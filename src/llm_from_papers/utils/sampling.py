@@ -1,5 +1,14 @@
 import torch
 
+def get_tokens_from_text(tokenizer, text):
+    tokens = tokenizer.encode(text)
+    return torch.tensor(tokens, dtype=torch.long).unsqueeze(0)  # add batch dimension
+
+def get_text_from_tokens(tokenizer, tokens):
+    tokens = tokens.squeeze(0).tolist()  # remove batch dimension
+    text = tokenizer.decode(tokens)
+    return text
+
 def sample(model, idx, max_new_tokens, context_length, temperature=1.0, top_k=None, eos_id=None):
     for _ in range(max_new_tokens):
         cond_idx = idx[:, -context_length:]
