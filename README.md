@@ -10,5 +10,8 @@ My mains tools are Python and PyTorch.
 - [x] Tokenization (using tiktoken)
 - [x] Attention mechanism from scratch
 - [x] GPT-2 model architecture from scratch
-- [ ] Training a small GPT-2 model on a small dataset
-- [ ] Implement training loop from scratch
+- [x] Training a small GPT-2 model on a small dataset
+- [x] Implement training loop from scratch
+- [x] Implement text generation from scratch using temperature and top-k sampling
+- [x] Load weights from a pretrained GPT-2 model
+- [ ] Fine-tune a pretrained GPT-2 model on a small dataset
